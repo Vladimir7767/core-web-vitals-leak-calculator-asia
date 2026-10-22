@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Core Web Vitals Conversion Leak Calculator: Page Speed Revenue Loss Audit Online (Asia)</title>
+<meta name="description" content="Free professional page speed financial loss simulator across APAC. Calculate PPC ad budget burn, traffic bounce rates, and missed conversion revenue due to Core Web Vitals.">
+<style>
+:root{--primary:#0284c7;--primary-hover:#0369a1;--success:#059669;--danger:#e11d48;--bg:#f8fafc;--card-bg:#ffffff;--text:#0f172a;--text-muted:#475569;--border:#cbd5e1;--accent:#d97706;--purple:#7c3aed;--slate:#1e293b}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{background:var(--bg);color:var(--text);padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.wrapper{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:540px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05)}
+h1{font-size:21px;font-weight:700;margin-bottom:4px;text-align:center;letter-spacing:-0.025em}
+.subtitle{font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:20px}
+.live-meter{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:20px;text-align:center}
+.meter-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px;letter-spacing:0.05em}
+.bar-container{background:var(--border);border-radius:20px;height:12px;width:100%;overflow:hidden;position:relative}
+.bar-fill{background:var(--primary);width:30%;height:100%;transition:all 0.4s ease}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:20px;border:1px solid var(--border)}
+.tab-btn{padding:10px 2px;background:none;border:none;border-radius:8px;font-size:11px;font-weight:700;color:var(--text-muted);cursor:pointer;transition:all 0.2s;text-align:center}
+.tab-btn.active{background:var(--card-bg);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.group{margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text)}
+select,input[type="number"]{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff;color:var(--text);transition:border 0.2s}
+select:focus,input:focus{border-color:var(--primary);outline:none}
+input[type="range"]{width:100%;margin:8px 0;cursor:pointer}
+.range-val{font-size:14px;font-weight:700;color:var(--primary);float:right}
+.calc-btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;box-shadow:0 4px 6px -1px rgba(2,132,199,0.2);transition:background 0.2s}
+.calc-btn:hover{background:var(--primary-hover)}
+.skynet-box{background:#fee2e2;border:1px solid #fca5a5;border-radius:12px;padding:14px;margin-top:20px;display:none}
+.skynet-title{font-size:12px;font-weight:700;color:var(--danger);margin-bottom:6px;text-transform:uppercase;text-align:center;letter-spacing:0.05em}
+.results{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:20px;display:none}
+.res-title{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px;text-align:center;text-transform:uppercase;letter-spacing:0.05em}
+.res-row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;border-bottom:1px dashed var(--border);align-items:center}
+.res-row:last-child{border-bottom:none}
+.res-val{font-weight:700;color:var(--primary);text-align:right;max-width:65%}
+.res-val.loss{color:var(--danger)}
+.partner-btn{display:block;width:100%;padding:11px;background:#fff;border:1px solid var(--purple);color:var(--purple);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;margin-top:12px;text-decoration:none}
+.partner-btn:hover{background:var(--purple);color:#fff}
+.seo-text{font-size:12px;color:var(--text-muted);margin-top:24px;text-align:justify;line-height:1.4;border-top:1px solid var(--border);padding-top:16px;display:none}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<h1>Page Speed Revenue Leak Calculator</h1>
+<div class="subtitle">Financial Audit of Core Web Vitals on Conversion Rates &amp; Leads (APAC Hub)</div>
+
+<div class="live-meter">
+<div class="meter-label">Leaked Traffic Index: <span id="live-preview-zone">Awaiting Data</span></div>
+<div class="bar-container"><div class="bar-fill" id="bar-fill"></div></div>
+</div>
+
+<div class="group">
+<label for="currency">Regional Calculation Currency</label>
+<select id="currency" onchange="updatePreview()">
+<option value="₹">Indian Rupee (₹)</option>
+<option value="Rp">Indonesian Rupiah (Rp)</option>
+<option value="$">US Dollar ($)</option>
+</select>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('traffic', this)">Traffic &amp; AOV</button>
+<button class="tab-btn" onclick="switchTab('vitals', this)">LCP Speed</button>
+<button class="tab-btn" onclick="switchTab('marketing', this)">Ad Burn</button>
+</div>
+<!-- TAB 1: TRAFFIC & AOV -->
+<div id="tab-traffic" class="tab-content active">
+<div class="group">
+<label for="monthly-traffic">Monthly Website Traffic (Unique Visits)</label>
+<input type="number" id="monthly-traffic" value="50000" min="1" max="100000000" oninput="updatePreview()">
+</div>
+<div class="group">
+<label for="conversion-rate">Baseline Conversion Rate (% of Traffic to Buyers) <span class="range-val" id="conv-val">2.5%</span></label>
+<input type="range" id="conversion-rate" min="0.1" max="20" value="2.5" step="0.1" oninput="document.getElementById('conv-val').innerText=this.value+'%'; updatePreview();">
+</div>
+<div class="group">
+<label for="average-check">Average Order Value (AOV in Selected Currency)</label>
+<input type="number" id="average-check" value="1500" min="1" max="1000000" oninput="updatePreview()">
+</div>
+</div>
+
+<!-- TAB 2: LCP SPEED -->
+<div id="tab-vitals" class="tab-content">
+<div class="group">
+<label for="hosting-type">Current Infrastructure / Hosting Provider</label>
+<select id="hosting-type" onchange="updatePreview()">
+<option value="shared">Cheap Shared Hosting (Shared Resource, $3/mo)</option>
+<option value="vps">Cloud VPS / High-Speed NVMe Instance</option>
+<option value="cdn">Dedicated Bare-Metal Node + Edge CDN Network</option>
+</select>
+</div>
+<div class="group">
+<label for="lcp-speed">Largest Contentful Paint Speed (LCP in Seconds) <span class="range-val" id="lcp-val">3.8s</span></label>
+<input type="range" id="lcp-speed" min="0.5" max="10" value="3.8" step="0.1" oninput="document.getElementById('lcp-val').innerText=this.value+'s'; updatePreview();">
+</div>
+</div>
+
+<!-- TAB 3: AD BURN -->
+<div id="tab-marketing" class="tab-content">
+<div class="group">
+<label for="ppc-spend">Monthly Paid Advertising Budget (Google Ads / Meta Ads)</label>
+<input type="number" id="ppc-spend" value="50000" min="0" max="50000000" oninput="updatePreview()">
+</div>
+<div class="group">
+<label for="tech-debt">Codebase Bloat &amp; Technical Debt Coefficient</label>
+<select id="tech-debt" onchange="updatePreview()">
+<option value="clean">Clean Code (Optimized boilerplate without junk scripts)</option>
+<option value="average">Medium Debt (Heavy plug-ins, bloated builders)</option>
+<option value="heavy">Critical Debt (Uncompressed imagery, endless tracker scripts)</option>
+</select>
+</div>
+</div>
+
+<button class="calc-btn" onclick="calculateAiMetrics()">Execute Leak Audit</button>
+
+<div class="results" id="results-box">
+<div class="res-title">Financial &amp; Technical Conversion Audit</div>
+<div class="res-row"><span>TTFB Delay Tax (Initial Server Bounce):</span><span class="res-val" id="res-ttfb-leak">0%</span></div>
+<div class="res-row"><span>Wasted Paid Advertising Budget Burn:</span><span class="res-val" id="res-ad-burn" style="color:var(--danger)">0</span></div>
+<div class="res-row"><span>Monthly Leaked Conversion Revenue Loss:</span><span class="res-val" id="res-cash-leak" style="color:var(--danger)">0</span></div>
+<div class="res-row"><span>Potential Revenue Post Core Web Vitals Optimization:</span><span class="res-val" id="res-max-profit" style="color:var(--success)">0</span></div>
+<div class="res-row"><span>Projected Sales Growth Multiplier (ROI):</span><span class="res-val" id="res-roi">+0%</span></div>
+<a href="https://runpod.io" target="_blank" class="partner-btn" id="partner-link">🌐 Evacuate Project Infrastructure to High-Speed Node</a>
+</div>
+
+<div class="skynet-box" id="skynet-container">
+<div class="skynet-title">🚨 Core Web Vitals Suppression &amp; SGE Visibility Index</div>
+<div class="res-row" style="border-bottom:none; color:#991b1b; font-size:12px; text-align:justify;"><span id="skynet-verdict">Execute page speed audit to evaluate hidden financial losses and indexing filtration risks.</span></div>
+</div>
+
+<div id="ads" class="ad"><div id="container-e8c895e6c70ade8e4ef4a72354f42e97"></div></div>
+
+<div class="seo-text" id="seo-box">
+Our professional online page speed conversion leak and Core Web Vitals financial loss simulator provides an instantaneous audit mapping how technical site speed parameters (LCP, TTFB, CLS) depress conversion rates and enterprise revenue streams across the Asia-Pacific regions. The computational backend models response metrics from low-tier shared servers versus cloud VPS deployments, assessing mobile user friction parameters (Bounce Rate Penalty). Isolate financial leakage inside paid user acquisition funnels (PPC Ads Budget Burn), examine technical debt generated by unoptimized JavaScript frameworks, and evaluate the risk of complete domain exclusion from search generative interfaces like Google AI Overviews and Gemini when rendering speeds breach performance budgets. Every calculation processes 100% locally.
+</div>
+</div>
+<script>
+let currentTab='traffic';
+const affiliateLinks={
+  shared:"https://hostinger.com",
+  vps:"https://runpod.io",
+  cdn:"https://vast.ai"
+};
+const currencySymbols={"₹":"₹","Rp":"Rp","\$":"\$"};
+function switchTab(t,b){currentTab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');updatePreview();}
+function calculateAllAiMetrics(){
+  const cur=document.getElementById('currency').value,symbol=currencySymbols[cur]||"\$";
+  const traffic=parseFloat(document.getElementById('monthly-traffic').value)||0,baseConv=parseFloat(document.getElementById('conversion-rate').value)/100,check=parseFloat(document.getElementById('average-check').value)||0;
+  const hosting=document.getElementById('hosting-type').value,lcp=parseFloat(document.getElementById('lcp-speed').value)||0;
+  const spend=parseFloat(document.getElementById('ppc-spend').value)||0,debt=document.getElementById('tech-debt').value;
+  let ttfbLeak=hosting==='shared'?0.15:(hosting==='vps'?0.05:0.01);
+  let speedFriction=lcp>1.5?Math.min(0.85,(lcp-1.5)*0.12):0;
+  let debtMod=debt==='average'?0.05:(debt==='heavy'?0.15:0);
+  const totalLeak=Math.min(0.90,speedFriction+ttfbLeak+debtMod);
+  const adBurn=spend*Math.min(0.75,(lcp*0.08));
+  const idealOrd=traffic*baseConv,lostOrd=idealOrd*totalLeak,lostCash=lostOrd*check;
+  const maxProf=idealOrd*check,curProf=maxProf-lostCash;
+  const roi=curProf>0?(lostCash/curProf)*100:0;
+  let fBurn="",fLeak="",fMax="";
+  if(cur==='Rp'){fBurn=Math.round(adBurn).toLocaleString('id-ID')+" Rp";fLeak=Math.round(lostCash).toLocaleString('id-ID')+" Rp";fMax=Math.round(maxProf).toLocaleString('id-ID')+" Rp";}
+  else if(cur==='₹'){fBurn="₹ "+Math.round(adBurn).toLocaleString('en-IN');fLeak="₹ "+Math.round(lostCash).toLocaleString('en-IN');fMax="₹ "+Math.round(maxProf).toLocaleString('en-IN');}
+  else{fBurn="\$"+Math.round(adBurn).toLocaleString('en-US');fLeak="\$"+Math.round(lostCash).toLocaleString('en-US');fMax="\$"+Math.round(maxProf).toLocaleString('en-US');}
+  return {
+    ttfb:Math.round((ttfbLeak+(lcp>3?0.08:0))*100)+"%",adBurn:fBurn,cashLeak:fLeak,maxProfit:fMax,roi:Math.round(roi),lcp:lcp,hosting:hosting,debt:debt,lostRaw:lostCash,cur:cur
+  };
+}
+function updatePreview(){
+  const d=calculateAllAiMetrics();if(!d)return;
+  let z="Conversion Stable",c="var(--success)",p=95;
+  if(d.lostRaw>1000||d.lcp>3.5){z="🚨 CRITICAL CONVERSION REVENUE LEAK";c="var(--danger)";p=20;}
+  else if(d.lcp>2.2&&d.lcp<=3.5){z="⚠️ TECHNICAL CORE WEB VITALS RISK";c="var(--accent)";p=50;}
+  document.getElementById('live-preview-zone').innerText=z;document.getElementById('live-preview-zone').style.color=c;
+  const f=document.getElementById('bar-fill');f.style.width=p+'%';f.style.background=c;
+  const l=document.getElementById('partner-link');if(l){
+    if(d.hosting==='shared'||d.lcp>4.0){l.innerText="🌐 Evacuate Infrastructure to High-Speed Cloud VPS Node";l.href=affiliateLinks.vps;}
+    else if(d.debt==='heavy'){l.innerText="🛠️ Hire Dedicated DevOps Expert to Purge Technical Debt";l.href=affiliateLinks.shared;}
+    else{l.innerText="🚀 Deploy Ultra Fast Global Edge CDN Layer";l.href=affiliateLinks.cdn;}
+  }
+}
+window.onload=function(){updatePreview();};
+function showAds(){
+  const c=document.getElementById('ads');if(!window.adScriptLoaded){window.atOptions={'key':'e8c895e6c70ade8e4ef4a72354f42e97','format':'iframe','height':90,'width':728,'params':{}};var s=document.createElement('script');s.type='text/javascript';s.async=!0;s.src=['https://','bagelstoppage.','com/','e8c895e6c70ade8e4ef4a72354f42e97/','invoke.js'].join('');c.appendChild(s);window.adScriptLoaded=!0;}c.style.display='flex';
+}
+function calculateAiMetrics(){
+  const d=calculateAllAiMetrics();if(!d)return;
+  document.getElementById('res-ttfb-leak').innerText=d.ttfb;document.getElementById('res-ad-burn').innerText=d.adBurn;document.getElementById('res-cash-leak').innerText=d.cashLeak;document.getElementById('res-max-profit').innerText=d.maxProfit;document.getElementById('res-roi').innerText="+"+d.roi+"%";
+  let v=`Core Web Vitals audit verified. Page rendering architecture speeds match Google engineering performance compliance benchmarks.`;
+  if(d.lcp>3.5)v=`🚨 CRITICAL SEARCH SUPPRESSION RISK: Largest Contentful Paint reached ${d.lcp}s! Your domain will be aggressively filtered out of Google AI Overviews and Gemini citations. Search engines automatically demote slow assets. Immediate server migration required.`;
+  else if(d.lostRaw>500&&d.hosting==='shared')v=`❌ INITIAL SERVER RESPONSE TAX: Low-tier shared servers introduce heavy TTFB lag, causing ${d.ttfb} of mobile traffic to bounce on a blank screen. Your enterprise leaks ${d.cashLeak} monthly. Evacuate to a Cloud VPS node immediately.`;
+  else if(d.debt==='heavy')v=`⚠️ CRITICAL TECHNICAL DEBT INTRUSION: Uncompressed media assets, unminified JS scripts, and endless trackers are destroying rendering pipelines. Paid marketing budgets burn ${d.adBurn} monthly due to traffic bounce rates. Code optimization is mandatory.`;
+  document.getElementById('skynet-verdict').innerText=v;document.getElementById('results-box').style.display='block';document.getElementById('skynet-container').style.display='block';updatePreview();showAds();
+}
+</script>
+</body>
+</html>
